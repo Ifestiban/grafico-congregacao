@@ -72,7 +72,7 @@
             "Paineiras": [359.00, 209.60, 518.36, 604.00, 665.86, 693.30, 629.00, 553.60, 490.04, 490.86, 452.90, 470.26],
             "Paquetá": [468.00, 232.00, 420.48, 461.60, 442.00, 428.70, 444.60, 486.40, 532.00, 486.40, 1251.56, 1944.34],
             "Imigrante": [1647.58, 2082.08, 2376.46, 2405.78, 2850.59, 2207.60, 2472.26, 1686.88, 1577.42, 1794.44, 1614.61],
-            "Mutirão": [1810.88, 2020.20, 1503.74, 1543.36, 1485.10, 1493.06, 1972.40, 1153.00, 1533.00, 1081.80, 1782.82, 1044.76],
+            "Mutirão": [1810.88, 2020.20, 1503.74, 1543.36, 1485.10, 1493.06, 1972.40, 1153.00, 1533.00, 1081.80, 178.82, 1044.76],
             "Caic": [792.00, 708.00, 378.00, 593.60, 433.60, 1233.60, 344.56, 616.24, 313.00, 145.20, 678.20, 352.08],
             "9 Norte": [3383.56, 3487.19, 3469.72, 3337.06, 3389.08, 3599.74, 4050.90, 3119.98, 4182.22, 3744.70, 3374.42, 4305.77],
             "10 Norte": [2003.84, 2014.00, 2060.66, 2531.04, 1816.94, 2134.36, 2065.06, 1776.90, 1569.82, 1784.90, 1613.06, 1559.46],
@@ -110,7 +110,7 @@
                         pointRadius: 5,
                         pointHoverRadius: 7,
                         fill: true,
-                        tension: 0.3  // Suavização da linha
+                        tension: 0.3 // Suavização da linha
                     }]
                 },
                 options: {
@@ -129,38 +129,16 @@
                                 size: 12
                             },
                             formatter: function(value) {
-                                return `R$ ${value.toFixed(2)}`;
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: `Gráfico de Evolução dos Valores Mensais para ${area}`,
-                            font: {
-                                size: 18,
-                                weight: 'bold'
-                            },
-                            padding: {
-                                top: 10,
-                                bottom: 30
+                                return 'R$ ' + value.toFixed(2); // Formatar valores com "R$"
                             }
                         }
                     },
                     scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Meses'
-                            }
-                        },
                         y: {
                             beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Valores em R$'
-                            },
                             ticks: {
                                 callback: function(value) {
-                                    return 'R$ ' + value.toFixed(2);
+                                    return 'R$ ' + value.toFixed(2); // Exibir "R$" nas escalas
                                 }
                             }
                         }

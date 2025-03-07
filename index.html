@@ -67,36 +67,22 @@
 
     <script>
         function forcarPaisagem() {
-    const mensagem = document.getElementById('orientacaoMensagem');
-
-    if (window.innerWidth < window.innerHeight) {
-        // Exibe a mensagem se a orientação não for paisagem
-        mensagem.style.display = 'block';
-
-        screen.orientation.lock('landscape')
-            .then(() => {
-                console.log('Orientação alterada para paisagem');
-            })
-            .catch(err => {
-                console.error('Erro ao tentar bloquear a orientação: ', err);
-            });
-    } else {
-        // Oculta a mensagem quando a tela estiver em paisagem
-        mensagem.style.display = 'none';
-    }
-}
-
-        function forcarPaisagem() {
-    if (window.innerWidth < window.innerHeight) {
-        screen.orientation.lock('landscape')
-            .then(() => {
-                console.log('Orientação alterada para paisagem');
-            })
-            .catch(err => {
-                console.error('Erro ao tentar bloquear a orientação: ', err);
-            });
-    }
-}
+            const mensagem = document.getElementById('orientacaoMensagem');
+            if (window.innerWidth < window.innerHeight) {
+                // Exibe a mensagem se a orientação não for paisagem
+                mensagem.style.display = 'block';
+                screen.orientation.lock('landscape')
+                    .then(() => {
+                        console.log('Orientação alterada para paisagem');
+                    })
+                    .catch(err => {
+                        console.error('Erro ao tentar bloquear a orientação: ', err);
+                    });
+            } else {
+                // Oculta a mensagem quando a tela estiver em paisagem
+                mensagem.style.display = 'none';
+            }
+        }
 
         const ctx = document.getElementById('grafico').getContext('2d');
         let chart;
@@ -132,60 +118,35 @@
             chart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: meses.slice(0, valores.length),
+                    labels: meses,
                     datasets: [{
-                        label: 'Valores em R$',
+                        label: `Evolução de Valores (${area})`,
                         data: valores,
-                        borderColor: '#36a2eb',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderWidth: 2,
-                        pointBackgroundColor: '#ff6384',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 5,
-                        pointHoverRadius: 7,
-                        fill: true,
-                        tension: 0.3 // Suavização da linha
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false,
+                        tension: 0.1
                     }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        },
                         datalabels: {
                             display: true,
+                            color: '#36A2EB',
                             align: 'top',
                             anchor: 'end',
-                            color: '#000',
                             font: {
                                 weight: 'bold'
                             }
                         }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Meses'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Valores (R$)'
-                            },
-                            beginAtZero: true
-                        }
                     }
-                },
-                plugins: [ChartDataLabels]
+                }
             });
         }
 
+        // Verifica a orientação da tela ao carregar
+        window.addEventListener('resize', forcarPaisagem);
+        window.addEventListener('load', forcarPaisagem);
     </script>
-
 </body>
 </html>

@@ -63,6 +63,18 @@
     </div>
 
     <script>
+        function forcarPaisagem() {
+    if (window.innerWidth < window.innerHeight) {
+        screen.orientation.lock('landscape')
+            .then(() => {
+                console.log('Orientação alterada para paisagem');
+            })
+            .catch(err => {
+                console.error('Erro ao tentar bloquear a orientação: ', err);
+            });
+    }
+}
+
         const ctx = document.getElementById('grafico').getContext('2d');
         let chart;
 
@@ -149,6 +161,7 @@
                 plugins: [ChartDataLabels]
             });
         }
+
     </script>
 
 </body>

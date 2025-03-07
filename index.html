@@ -36,7 +36,10 @@
     </style>
 </head>
 <body>
-
+    <div id="orientacaoMensagem" style="display: none; text-align: center; font-size: 18px; color: red; padding: 10px; background-color: yellow;">
+        Por favor, altere a orientação da tela para paisagem.
+    </div>
+    
     <h1>Gráfico de Evolução dos Valores Mensais</h1>
     <div class="button-container">
         <button onclick="mostrarGrafico('Itapua 01')">Itapua 01</button>
@@ -63,6 +66,26 @@
     </div>
 
     <script>
+        function forcarPaisagem() {
+    const mensagem = document.getElementById('orientacaoMensagem');
+
+    if (window.innerWidth < window.innerHeight) {
+        // Exibe a mensagem se a orientação não for paisagem
+        mensagem.style.display = 'block';
+
+        screen.orientation.lock('landscape')
+            .then(() => {
+                console.log('Orientação alterada para paisagem');
+            })
+            .catch(err => {
+                console.error('Erro ao tentar bloquear a orientação: ', err);
+            });
+    } else {
+        // Oculta a mensagem quando a tela estiver em paisagem
+        mensagem.style.display = 'none';
+    }
+}
+
         function forcarPaisagem() {
     if (window.innerWidth < window.innerHeight) {
         screen.orientation.lock('landscape')

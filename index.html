@@ -39,24 +39,23 @@
 
     <h1>Gráfico de Evolução dos Valores Mensais</h1>
     <div class="button-container">
-    <button onclick="mostrarGrafico('Itapua 01')">Itapua 01</button>
-    <button onclick="mostrarGrafico('Palmeira')">Palmeira</button>
-    <button onclick="mostrarGrafico('Paineiras')">Paineiras</button>
-    <button onclick="mostrarGrafico('Paquetá')">Paquetá</button>
-    <button onclick="mostrarGrafico('Imigrante')">Imigrante</button>
-    <button onclick="mostrarGrafico('Mutirão')">Mutirão</button>
-    <button onclick="mostrarGrafico('Caic')">Caic</button>
-    <button onclick="mostrarGrafico('9 Norte')">9 Norte</button>
-    <button onclick="mostrarGrafico('10 Norte')">10 Norte</button>
-    <button onclick="mostrarGrafico('19 Norte')">19 Norte</button>
-    <button onclick="mostrarGrafico('4 Sul')">4 Sul</button>
-    <button onclick="mostrarGrafico('4 Leste')">4 Leste</button>
-    <button onclick="mostrarGrafico('5 Oeste')">5 Oeste</button>
-    <button onclick="mostrarGrafico('Mato Seco')">Mato Seco</button>
-    <button onclick="mostrarGrafico('fazenda Posse')">Fazenda Posse</button>
-    <button onclick="mostrarGrafico('Luiza de Brito')">Luiza de Brito</button>
-    <button onclick="mostrarGrafico('15 Norte')">15 Norte</button>
-        <!-- Outros botões podem ser adicionados aqui -->
+        <button onclick="mostrarGrafico('Itapua 01')">Itapua 01</button>
+        <button onclick="mostrarGrafico('Palmeira')">Palmeira</button>
+        <button onclick="mostrarGrafico('Paineiras')">Paineiras</button>
+        <button onclick="mostrarGrafico('Paquetá')">Paquetá</button>
+        <button onclick="mostrarGrafico('Imigrante')">Imigrante</button>
+        <button onclick="mostrarGrafico('Mutirão')">Mutirão</button>
+        <button onclick="mostrarGrafico('Caic')">Caic</button>
+        <button onclick="mostrarGrafico('9 Norte')">9 Norte</button>
+        <button onclick="mostrarGrafico('10 Norte')">10 Norte</button>
+        <button onclick="mostrarGrafico('19 Norte')">19 Norte</button>
+        <button onclick="mostrarGrafico('4 Sul')">4 Sul</button>
+        <button onclick="mostrarGrafico('4 Leste')">4 Leste</button>
+        <button onclick="mostrarGrafico('5 Oeste')">5 Oeste</button>
+        <button onclick="mostrarGrafico('Mato Seco')">Mato Seco</button>
+        <button onclick="mostrarGrafico('fazenda Posse')">Fazenda Posse</button>
+        <button onclick="mostrarGrafico('Luiza de Brito')">Luiza de Brito</button>
+        <button onclick="mostrarGrafico('15 Norte')">15 Norte</button>
     </div>
     
     <div class="chart-container">
@@ -68,24 +67,23 @@
         let chart;
 
         const dados = {
-    "Itapua 01": [6583.40, 4537.01, 3500.00, 5251.83, 4198.56, 7030.42, 4996.01, 4599.50, 5133.31, 5133.31, 6178.66, 8887.14],
-    "Palmeira": [1403.60, 1222.40, 1226.00, 1004.53, 1689.81, 1037.56, 2811.29, 1950.94, 1211.54, 1584.78, 1584.78, 1408.00,],
-    "Paineiras": [359.00, 209.60, 518.36, 604.00, 665.86, 693.30, 629.00, 553.60, 490.04, 490.86, 452.90, 470.26],
-    "Paquetá": [468.00, 232.00, 420.48, 461.60, 442.00, 428.70, 444.60, 486.40, 532.00, 486.40, 1251.56, 1944.34],
-    "Imigrante": [1647.58, 2082.08, 2376.46, 2405.78, 2850.59, 2207.60, 2472.26, 1686.88, 1577.42, 1794.44, 1614.61],
-    "Mutirão": [1810.88, 2020.20, 1503.74, 1543.36, 1485.10, 1493.06, 1972.40, 1153.00, 1533.00, 1081.80, 1.78.82, 1044.76],
-    "Caic": [792.00, 708.00, 378.00, 593.60, 433.60, 1233.60, 344.56, 616.24, 313.00, 145.20, 678.20, 352.08],
-    "9 Norte": [3383.56, 3487.19, 3469.72, 3337.06, 3389.08, 3599.74, 4050.90, 3119.98, 4182.22, 3744.70, 3374.42, 4305.77],
-    "10 Norte": [2003.84, 2014.00, 2060.66, 2531.04, 1816.94, 2134.36, 2065.06, 1776.90, 1569.82, 1784.90,1613.06, 1559.46],
-    "19 Norte": [1093.60, 1795.29, 1925.22, 1486.68, 1319.61, 1477.32, 1586.50, 1703.20, 1063.88, 697.76, 1507.60, 654.00],
-    "4 Sul": [2181.18, 2198.43, 1964.56, 2426.64, 2476.99, 2638.20, 2048.45, 1863.48, 2718.06, 2259.70, 1222.26, 1328.23],
-    "4 Leste": [2262.40, 2025.60, 2308.76, 2469.94, 1722.66, 1689.18, 1588.36, 1748.06, 1691.34, 1894.48, 1698.86, 1436.88],
-    "5 Oeste": [905.20, 798.74, 1038.72, 1117.28, 1100.52, 1351.79, 1297.92, 1689.72, 1215.52, 1340.20, 1103.68, 1201.60],
-    "Mato Seco": [1191.20, 560.00, 420.00, 529.60, 494.80, 469.60, 924.00, 565.60, 626.40, 592.00, 508.00, 548.00],
-    "fazenda Posse": [2985.00, 2965.44, 2500.00, 2777.00, 2605.00, 2699.00, 2636.00, 1665.00, 1209.17, 924.40, 680.40, 683.50],
-    "Luiza de Brito": [629.20, 770.80, 650.00, 1044.00, 1019.20, 847.20, 764.00, 616.00, 671.20, 578,00, 678,00],
-    "15 Norte": [1220.58, 2043.60, 1649.92, 1536.02, 1330.64, 1716.46, 1843.18, 2041.72, 1667.76, 1395.54, 1335.16, 1114.87],
-            // Adicione mais dados conforme necessário
+            "Itapua 01": [6583.40, 4537.01, 3500.00, 5251.83, 4198.56, 7030.42, 4996.01, 4599.50, 5133.31, 5133.31, 6178.66, 8887.14],
+            "Palmeira": [1403.60, 1222.40, 1226.00, 1004.53, 1689.81, 1037.56, 2811.29, 1950.94, 1211.54, 1584.78, 1584.78, 1408.00],
+            "Paineiras": [359.00, 209.60, 518.36, 604.00, 665.86, 693.30, 629.00, 553.60, 490.04, 490.86, 452.90, 470.26],
+            "Paquetá": [468.00, 232.00, 420.48, 461.60, 442.00, 428.70, 444.60, 486.40, 532.00, 486.40, 1251.56, 1944.34],
+            "Imigrante": [1647.58, 2082.08, 2376.46, 2405.78, 2850.59, 2207.60, 2472.26, 1686.88, 1577.42, 1794.44, 1614.61],
+            "Mutirão": [1810.88, 2020.20, 1503.74, 1543.36, 1485.10, 1493.06, 1972.40, 1153.00, 1533.00, 1081.80, 1782.82, 1044.76],
+            "Caic": [792.00, 708.00, 378.00, 593.60, 433.60, 1233.60, 344.56, 616.24, 313.00, 145.20, 678.20, 352.08],
+            "9 Norte": [3383.56, 3487.19, 3469.72, 3337.06, 3389.08, 3599.74, 4050.90, 3119.98, 4182.22, 3744.70, 3374.42, 4305.77],
+            "10 Norte": [2003.84, 2014.00, 2060.66, 2531.04, 1816.94, 2134.36, 2065.06, 1776.90, 1569.82, 1784.90, 1613.06, 1559.46],
+            "19 Norte": [1093.60, 1795.29, 1925.22, 1486.68, 1319.61, 1477.32, 1586.50, 1703.20, 1063.88, 697.76, 1507.60, 654.00],
+            "4 Sul": [2181.18, 2198.43, 1964.56, 2426.64, 2476.99, 2638.20, 2048.45, 1863.48, 2718.06, 2259.70, 1222.26, 1328.23],
+            "4 Leste": [2262.40, 2025.60, 2308.76, 2469.94, 1722.66, 1689.18, 1588.36, 1748.06, 1691.34, 1894.48, 1698.86, 1436.88],
+            "5 Oeste": [905.20, 798.74, 1038.72, 1117.28, 1100.52, 1351.79, 1297.92, 1689.72, 1215.52, 1340.20, 1103.68, 1201.60],
+            "Mato Seco": [1191.20, 560.00, 420.00, 529.60, 494.80, 469.60, 924.00, 565.60, 626.40, 592.00, 508.00, 548.00],
+            "fazenda Posse": [2985.00, 2965.44, 2500.00, 2777.00, 2605.00, 2699.00, 2636.00, 1665.00, 1209.17, 924.40, 680.40, 683.50],
+            "Luiza de Brito": [629.20, 770.80, 650.00, 1044.00, 1019.20, 847.20, 764.00, 616.00, 671.20, 578.00, 678.00],
+            "15 Norte": [1220.58, 2043.60, 1649.92, 1536.02, 1330.64, 1716.46, 1843.18, 2041.72, 1667.76, 1395.54, 1335.16, 1114.87]
         };
 
         function mostrarGrafico(area) {
@@ -101,7 +99,7 @@
                 data: {
                     labels: meses.slice(0, valores.length),
                     datasets: [{
-                        label: `Valores em R$`,
+                        label: 'Valores em R$',
                         data: valores,
                         borderColor: '#36a2eb',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -162,13 +160,12 @@
                             },
                             ticks: {
                                 callback: function(value) {
-                                    return 'R$ ' + value;
+                                    return 'R$ ' + value.toFixed(2);
                                 }
                             }
                         }
                     }
-                },
-                plugins: [ChartDataLabels]
+                }
             });
         }
     </script>

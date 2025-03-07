@@ -121,31 +121,37 @@
                             position: 'top'
                         },
                         datalabels: {
-                            anchor: 'end',
+                            display: true,
                             align: 'top',
-                            color: '#333',
+                            anchor: 'end',
+                            color: '#000',
                             font: {
-                                weight: 'bold',
-                                size: 12
-                            },
-                            formatter: function(value) {
-                                return 'R$ ' + value.toFixed(2); // Formatar valores com "R$"
+                                weight: 'bold'
                             }
                         }
                     },
                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return 'R$ ' + value.toFixed(2); // Exibir "R$" nas escalas
-                                }
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Meses'
                             }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Valores (R$)'
+                            },
+                            beginAtZero: true
                         }
                     }
-                }
+                },
+                plugins: [ChartDataLabels]
             });
         }
+
+        // Exibir gráfico inicial
+        mostrarGrafico('Itapua 01');
     </script>
 
 </body>

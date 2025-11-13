@@ -1,181 +1,319 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráfico de Evolução dos Valores Mensais</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <style>
-        h1 {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            margin-bottom: 20px;
-        }
-        .button-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        button {
-            margin: 5px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .chart-container {
-            max-width: 800px;
-            margin: auto;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gráfico de Evolução dos Valores Mensais</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<style>
+    body { font-family: Arial, sans-serif; }
+    h1 { text-align: center; margin-bottom: 10px; }
+    .button-container { text-align: center; margin-bottom: 20px; flex-wrap: wrap; }
+    button {
+        margin: 5px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover { background-color: #45a049; }
+    .chart-container { max-width: 900px; margin: auto; }
+    #resumo {
+        max-width: 900px;
+        margin: 20px auto;
+        text-align: center;
+        background: #f3f3f3;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 15px;
+    }
+</style>
 </head>
 <body>
-    <div id="orientacaoMensagem" style="display: none; text-align: center; font-size: 18px; color: red; padding: 10px; background-color: yellow;">
-        Por favor, altere a orientação da tela para paisagem.
-    </div>
-    
-    <h1>Gráfico de Evolução dos Valores Mensais</h1>
-    <div class="button-container">
-        <button onclick="mostrarGrafico('Itapua 01')">Itapua 01</button>
-        <button onclick="mostrarGrafico('Palmeira')">Palmeira</button>
-        <button onclick="mostrarGrafico('Paineiras')">Paineiras</button>
-        <button onclick="mostrarGrafico('Paquetá')">Paquetá</button>
-        <button onclick="mostrarGrafico('Imigrante')">Imigrante</button>
-        <button onclick="mostrarGrafico('Mutirão')">Mutirão</button>
-        <button onclick="mostrarGrafico('Caic')">Caic</button>
-        <button onclick="mostrarGrafico('9 Norte')">9 Norte</button>
-        <button onclick="mostrarGrafico('10 Norte')">10 Norte</button>
-        <button onclick="mostrarGrafico('19 Norte')">19 Norte</button>
-        <button onclick="mostrarGrafico('4 Sul')">4 Sul</button>
-        <button onclick="mostrarGrafico('4 Leste')">4 Leste</button>
-        <button onclick="mostrarGrafico('5 Oeste')">5 Oeste</button>
-        <button onclick="mostrarGrafico('Mato Seco')">Mato Seco</button>
-        <button onclick="mostrarGrafico('fazenda Posse')">Fazenda Posse</button>
-        <button onclick="mostrarGrafico('Luiza de Brito')">Luiza de Brito</button>
-        <button onclick="mostrarGrafico('15 Norte')">15 Norte</button>
-    </div>
-    
-    <div class="chart-container">
-        <canvas id="grafico" width="400" height="200"></canvas>
-    </div>
+<!-- 💠 SPLASH SCREEN -->
+<div id="splash-screen">
+  <img src="fundo.png" alt="Logo" class="splash-logo">
+</div>
 
-    <script>
-        function forcarPaisagem() {
-            const mensagem = document.getElementById('orientacaoMensagem');
-            if (window.innerWidth < window.innerHeight) {
-                mensagem.style.display = 'block';
+<style>
+  #splash-screen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #111 0%, #000 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeOut 1s ease 4s forwards;
+  }
 
-                if (screen.orientation && screen.orientation.lock) {
-                    screen.orientation.lock('landscape')
-                        .then(() => {
-                            console.log('Orientação alterada para paisagem');
-                        })
-                        .catch(err => {
-                            console.error('Erro ao tentar bloquear a orientação: ', err);
-                        });
-                } else {
-                    console.warn('Bloqueio de orientação não suportado neste dispositivo/navegador');
+  .splash-logo {
+    width: 200px;
+    filter: drop-shadow(0 0 20px #00c3ff);
+    opacity: 0;
+    transform: scale(0.85);
+    animation: glowIn 1.5s ease forwards;
+  }
+
+  @keyframes glowIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.85);
+      filter: drop-shadow(0 0 0px #00c3ff);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      filter: drop-shadow(0 0 25px #00c3ff);
+    }
+  }
+
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+</style>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('splash-screen').style.display = 'none';
+    }, 5000);
+  });
+</script>
+
+<div id="orientacaoMensagem" style="display:none;text-align:center;font-size:18px;color:red;padding:10px;background-color:yellow;">
+    Por favor, altere a orientação da tela para paisagem.
+</div>
+
+<h1>Gráfico de Evolução dos Valores Mensais</h1>
+
+<div class="button-container">
+    <button onclick="mostrarGrafico('Itapuã 01')">Itapuã 01</button>
+    <button onclick="mostrarGrafico('Palmeiras')">Palmeiras</button>
+    <button onclick="mostrarGrafico('Paineiras')">Paineiras</button>
+    <button onclick="mostrarGrafico('Paquetá')">Paquetá</button>
+    <button onclick="mostrarGrafico('Imigrantes')">Imigrantes</button>
+    <button onclick="mostrarGrafico('Mutirão')">Mutirão</button>
+    <button onclick="mostrarGrafico('Residencial Caic')">Residencial Caic</button>
+    <button onclick="mostrarGrafico('9 Norte')">9 Norte</button>
+    <button onclick="mostrarGrafico('10 Norte')">10 Norte</button>
+    <button onclick="mostrarGrafico('19 Norte')">19 Norte</button>
+    <button onclick="mostrarGrafico('4 Sul')">4 Sul</button>
+    <button onclick="mostrarGrafico('4 Leste')">4 Leste</button>
+    <button onclick="mostrarGrafico('5 Oeste')">5 Oeste</button>
+    <button onclick="mostrarGrafico('Mato Seco')">Mato Seco</button>
+    <button onclick="mostrarGrafico('Fazenda Posse')">Fazenda Posse</button>
+    <button onclick="mostrarGrafico('Luiza de Brito')">Luiza de Brito</button>
+    <button onclick="mostrarGrafico('15 Norte')">15 Norte</button>
+</div>
+
+<div id="resumo">Selecione uma congregação acima para ver o resumo financeiro.</div>
+
+<div class="chart-container">
+    <canvas id="grafico" width="400" height="200"></canvas>
+</div>
+
+<!-- 🔽 Botão aparece somente após escolher uma congregação -->
+<div id="toggleContainer" style="display:none; text-align:center; margin-top:15px;">
+    <button id="toggleValores" onclick="alternarValores()" 
+        style="background-color:#007BFF; color:white; padding:10px 20px; 
+               border:none; border-radius:8px; cursor:pointer; font-size:16px;">
+        Mostrar valores
+    </button>
+</div>
+
+<script>
+// ==== DETECÇÃO DE DISPOSITIVO E ORIENTAÇÃO ====
+function isMobileDevice() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+}
+function forcarPaisagem() {
+    const mensagem = document.getElementById('orientacaoMensagem');
+    const isPortrait = window.innerWidth < window.innerHeight;
+    mensagem.style.display = (isMobileDevice() && isPortrait) ? 'block' : 'none';
+}
+window.addEventListener('resize', forcarPaisagem);
+window.addEventListener('orientationchange', forcarPaisagem);
+forcarPaisagem();
+
+// ==== DADOS ====
+const dados = {
+    "Imigrantes": {
+        2024: [2082.08, 2376.46, 2405.78, 2850.59, 2207.60, 2472.26, 2373.54, 1577.42, 1794.44, 1651.47, 1216.07, 1726.61],
+        2025: [1659.00, 1496.00, 1176.00, 1970.25, 1737.44, 2133.14, 2210.76, 2222.10, 1980.82, 2068.86, 0.00, 0.00]
+    },
+    "Itapuã 01": {
+        2024: [6583.40, 4537.01, 4036.28, 5251.83, 4198.56, 7030.42, 4996.01, 4599.50, 3727.21, 5133.31, 6178.66, 8887.14],
+        2025: [5430.18, 6062.37, 5537.62, 4535.32, 4828.97, 5007.82, 5668.67, 6548.33, 4245.42, 0.00, 0.00, 0.00]
+    },
+    "Luiza de Brito": {
+        2024: [770.80, 621.00, 1044.00, 1019.20, 455.60, 764.00, 616.00, 671.20, 635.20, 599.20, 527.20, 471.20],
+        2025: [520.00, 621.00, 538.80, 538.80, 455.60, 300.00, 556.90, 284.84, 364.80, 200.00, 0.00, 0.00]
+    },
+    "Mato Seco": {
+        2024: [560.00, 420.00, 529.60, 494.80, 469.60, 924.00, 565.60, 626.40, 592.00, 508.00, 548.00, 638.80],
+        2025: [404.00, 462.00, 676.80, 948.80, 980.40, 910.40, 680.40, 897.60, 412.00, 0.00, 0.00, 0.00]
+    },
+    "Paineiras": {
+        2024: [568.60, 518.36, 604.00, 665.86, 693.30, 629.00, 553.60, 490.04, 490.86, 452.90, 470.26, 437.44],
+        2025: [403.04, 615.40, 560.16, 762.50, 873.00, 517.68, 581.42, 426.08, 577.22, 0.00, 0.00, 0.00]
+    },
+    "Palmeiras": {
+        2024: [1222.40, 1226.00, 1004.53, 1689.81, 1037.56, 2811.29, 1950.94, 1211.54, 1584.78, 1408.30, 1698.55, 1827.09],
+        2025: [1395.04, 1228.00, 1042.21, 950.88, 1223.60, 1825.22, 1939.06, 1633.46, 1031.08, 0.00, 0.00, 0.00]
+    },
+    "Paquetá": {
+        2024: [235.19, 420.48, 461.60, 442.00, 428.70, 444.60, 486.40, 532.00, 537.00, 1251.56, 1944.34, 1609.03],
+        2025: [2048.40, 1535.63, 1260.95, 1212.40, 1699.07, 1026.43, 1191.12, 1987.44, 1740.55, 0.00, 0.00, 0.00]
+    },
+    "4 Leste": {
+        2024: [2025.60, 2308.76, 2469.94, 1722.66, 1689.18, 1588.36, 1748.06, 1691.34, 1894.48, 1698.86, 1436.88, 1755.50],
+        2025: [2003.36, 2265.84, 1319.08, 1525.53, 1474.70, 2839.42, 2138.68, 2269.76, 2420.40, 0.00, 0.00, 0.00]
+    },
+    "4 Sul": {
+        2024: [2198.43, 2426.64, 1964.56, 2476.99, 2638.20, 1663.48, 2048.45, 2718.06, 2259.70, 1222.26, 1328.23, 1520.04],
+        2025: [847.82, 613.60, 702.80, 1684.86, 1275.35, 800.84, 614.40, 1153.81, 1265.67, 0.00, 0.00, 0.00]
+    },
+    "5 Oeste": {
+        2024: [798.74, 1038.72, 1117.28, 1100.52, 1351.79, 1297.92, 1689.72, 1215.52, 1340.20, 1103.68, 1201.60, 1490.00],
+        2025: [1087.40, 1061.36, 1279.00, 1211.16, 1298.76, 1435.60, 1181.68, 1049.00, 1051.20, 0.00, 0.00, 0.00]
+    },
+    "9 Norte": {
+        2024: [3487.19, 3469.72, 3337.06, 3389.08, 3599.74, 4050.90, 3119.98, 4182.22, 3744.70, 3374.42, 4305.77, 5659.70],
+        2025: [5555.78, 5628.85, 6238.07, 5910.43, 5928.59, 5928.59, 5349.12, 1886.25, 2204.72, 0.00, 0.00, 0.00]
+    },
+    "10 Norte": {
+        2024: [2014.00, 2060.66, 2531.04, 1816.94, 2134.36, 2065.06, 1776.90, 1569.82, 1784.90, 1613.06, 1559.46, 2077.82],
+        2025: [1790.72, 2276.08, 1832.52, 1954.49, 1683.82, 1587.04, 1999.00, 1951.37, 1600.43, 0.00, 0.00, 0.00]
+    },
+    "15 Norte": {
+        2024: [2043.60, 1649.92, 1536.02, 1330.64, 1716.46, 1843.18, 2041.72, 1667.76, 1395.54, 1335.16, 1114.87, 1356.68],
+        2025: [1265.00, 1087.80, 1262.14, 1559.78, 1402.20, 1364.92, 1384.60, 1445.60, 0.00, 0.00, 0.00, 0.00]
+    },
+    "19 Norte": {
+        2024: [1795.29, 1925.22, 1486.68, 1319.61, 1477.32, 1586.50, 1703.20, 1063.88, 697.76, 1507.60, 654.00, 3037.60],
+        2025: [1036.00, 1217.20, 3058.48, 2399.60, 1551.60, 1262.80, 1065.26, 2110.36, 1117.60, 0.00, 0.00, 0.00]
+    },
+    "Residencial Caic": {
+        2024: [708.00, 378.00, 593.60, 433.60, 1233.60, 616.24, 344.56, 145.20, 313.00, 678.20, 352.08, 1839.88],
+        2025: [499.69, 309.10, 310.68, 585.20, 169.40, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]
+    },
+    "Fazenda Posse": {
+        2024: [0,0,0,0,0,0,0,0,0,0,0,0],
+        2025: [0,0,0,0,0,0,0,0,0,0,0,0]
+    },
+    "Mutirão": {
+        2024: [0,0,0,0,0,0,0,0,0,0,0,0],
+        2025: [0,0,0,0,0,0,0,0,0,0,0,0]
+    }
+};
+// ==== VARIÁVEIS GLOBAIS ====
+let chart;
+let mostrarValores = false;
+
+// ==== FUNÇÕES ====
+function normalizarTexto(texto) {
+    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
+function mostrarGrafico(area) {
+    const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+    const chave = Object.keys(dados).find(k => normalizarTexto(k) === normalizarTexto(area));
+    if (!chave) return alert(`Congregação "${area}" não encontrada.`);
+
+    const valores2024 = dados[chave][2024];
+    const valores2025 = dados[chave][2025];
+    const total2024 = valores2024.reduce((a,b)=>a+b,0);
+    const total2025 = valores2025.reduce((a,b)=>a+b,0);
+    const variacao = total2024 > 0 ? ((total2025 - total2024) / total2024 * 100).toFixed(2) : 0;
+
+    const melhorMes = meses[valores2025.indexOf(Math.max(...valores2025))] || "-";
+    const piorMes = meses[valores2025.indexOf(Math.min(...valores2025.filter(v=>v>0)))] || "-";
+
+    document.getElementById("resumo").innerHTML = `
+        <b>${chave}</b><br>
+        Total 2024: R$ ${total2024.toLocaleString('pt-BR',{minimumFractionDigits:2})} |
+        Total 2025: R$ ${total2025.toLocaleString('pt-BR',{minimumFractionDigits:2})}<br>
+        <b>Variação:</b> ${variacao}%<br>
+        Melhor mês 2025: <b>${melhorMes}</b> | Pior mês: <b>${piorMes}</b>
+    `;
+
+    if (chart) chart.destroy();
+
+    chart = new Chart(document.getElementById('grafico').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: meses,
+            datasets: [
+                {
+                    label: 'Ano 2024',
+                    data: valores2024,
+                    borderColor: '#36A2EB',
+                    backgroundColor: 'rgba(54,162,235,0.2)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 5
+                },
+                {
+                    label: 'Ano 2025',
+                    data: valores2025,
+                    borderColor: '#FF6384',
+                    backgroundColor: 'rgba(255,99,132,0.2)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 5
                 }
-            } else {
-                mensagem.style.display = 'none';
-            }
-        }
-
-        // Chama a função forcarPaisagem antes de mostrar o gráfico
-        function mostrarGrafico(area) {
-            forcarPaisagem(); // Forçar a orientação para paisagem
-            const valores = dados[area];
-            const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-
-            if (chart) {
-                chart.destroy();
-            }
-
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: meses.slice(0, valores.length),
-                    datasets: [{
-                        label: 'Valores em R$',
-                        data: valores,
-                        borderColor: '#36a2eb',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderWidth: 2,
-                        pointBackgroundColor: '#ff6384',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 5,
-                        pointHoverRadius: 7,
-                        fill: true,
-                        tension: 0.3 // Suavização da linha
-                    }]
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                datalabels: {
+                    display: mostrarValores,
+                    align: 'top',
+                    color: '#000',
+                    font: { weight: 'bold', size: 12 },
+                    formatter: value => value > 0 ? value.toFixed(2) : ''
                 },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        },
-                        datalabels: {
-                            display: true,
-                            align: 'top',
-                            anchor: 'end',
-                            color: '#000',
-                            font: {
-                                weight: 'bold'
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Meses'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Valores (R$)'
-                            },
-                            beginAtZero: true
-                        }
-                    }
-                },
-                plugins: [ChartDataLabels]
-            });
-        }
+                title: { display: true, text: `Comparativo de Repasses - ${chave}` }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: "Valores (R$)" }
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
 
-        const ctx = document.getElementById('grafico').getContext('2d');
-        let chart;
+    // Exibe botão de alternância após exibir gráfico
+    document.getElementById("toggleContainer").style.display = "block";
+    document.getElementById("toggleValores").textContent = "Mostrar valores";
+    mostrarValores = false;
+}
 
-        const dados = {
-            "Itapua 01": [6583.40, 4537.01, 3500.00, 5251.83, 4198.56, 7030.42, 4996.01, 4599.50, 5133.31, 5133.31, 6178.66, 8887.14],
-            "Palmeira": [1403.60, 1222.40, 1226.00, 1004.53, 1689.81, 1037.56, 2811.29, 1950.94, 1211.54, 1584.78, 1584.78, 1408.00],
-            "Paineiras": [359.00, 209.60, 518.36, 604.00, 665.86, 693.30, 629.00, 553.60, 490.04, 490.86, 452.90, 470.26],
-            "Paquetá": [468.00, 232.00, 420.48, 461.60, 442.00, 428.70, 444.60, 486.40, 532.00, 486.40, 1251.56, 1944.34],
-            "Imigrante": [1647.58, 2082.08, 2376.46, 2405.78, 2850.59, 2207.60, 2472.26, 1686.88, 1577.42, 1794.44, 1614.61],
-            "Mutirão": [1810.88, 2020.20, 1503.74, 1543.36, 1485.10, 1493.06, 1972.40, 1153.00, 1533.00, 1081.80, 178.82, 1044.76],
-            "Caic": [792.00, 708.00, 378.00, 593.60, 433.60, 1233.60, 344.56, 616.24, 313.00, 145.20, 678.20, 352.08],
-            "9 Norte": [3383.56, 3487.19, 3469.72, 3337.06, 3389.08, 3599.74, 4050.90, 3119.98, 4182.22, 3744.70, 3374.42, 4305.77],
-            "10 Norte": [2003.84, 2014.00, 2060.66, 2531.04, 1816.94, 2134.36, 2065.06, 1776.90, 1569.82, 1784.90, 1613.06, 1559.46],
-            "19 Norte": [1093.60, 1795.29, 1925.22, 1486.68, 1319.61, 1477.32, 1586.50, 1703.20, 1063.88, 697.76, 1507.60, 654.00],
-            "4 Sul": [2181.18, 2198.43, 1964.56, 2426.64, 2476.99, 2638.20, 2048.45, 1863.48, 2718.06, 2259.70, 1222.26, 1328.23],
-            "4 Leste": [2262.40, 2025.60, 2308.76, 2469.94, 1722.66, 1689.18, 1588.36, 1748.06, 1691.34, 1894.48, 1698.86, 1436.88],
-            "5 Oeste": [905.20, 798.74, 1038.72, 1117.28, 1100.52, 1351.79, 1297.92, 1689.72, 1215.52, 1340.66, 1040.78, 848.56],
-            "Mato Seco": [1923.60, 1372.68, 1746.64, 1710.00, 1598.74, 1442.10, 1255.00, 1260.42, 1335.32, 1815.20, 1713.12, 1611.56],
-            "Fazenda Posse": [1793.56, 1915.46, 1975.98, 1714.30, 1931.88, 1461.98, 1290.80, 1174.56, 1855.62, 1223.64, 1782.90, 1550.72],
-            "Luiza de Brito": [4023.40, 3383.20, 3332.00, 3047.20, 3134.46, 3924.60, 4173.20, 3412.50, 3552.60, 3761.60, 4211.70, 3420.40],
-            "15 Norte": [2702.00, 3129.98, 3311.30, 2969.06, 3271.16, 3320.76, 3312.12, 3401.50, 3803.08, 3175.32, 2972.14, 2961.78]
-        };
-
-    </script>
+function alternarValores() {
+    mostrarValores = !mostrarValores;
+    const botao = document.getElementById("toggleValores");
+    botao.textContent = mostrarValores ? "Ocultar valores" : "Mostrar valores";
+    if (chart) {
+        chart.options.plugins.datalabels.display = mostrarValores;
+        chart.update();
+    }
+}
+</script>
 </body>
 </html>
+
